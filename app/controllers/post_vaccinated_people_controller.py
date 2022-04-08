@@ -1,6 +1,5 @@
 from flask import request, jsonify, current_app
 from app.models.vaccined_people_model import Vacinned
-from  datetime import date, timedelta
 from app.exc import NotFoundKey, InvalidKeyValue, InvalidCpf, CpfAlrealyExists
 
 
@@ -16,8 +15,9 @@ def new_vaccinated_people_controller():
         elif key in valid_keys:
             invalid_values.append(key)
 
+    obrigatory_keys = ["cpf", "name", "vaccine_name"]
     not_found_keys = [
-        key for key in valid_keys
+        key for key in obrigatory_keys
          if key not in new_data.keys()
          ]
     
@@ -31,16 +31,11 @@ def new_vaccinated_people_controller():
             raise InvalidKeyValue(invalid_values)
 
         if len(not_found_keys) > 0:
-            raise NotFoundKey(valid_keys, not_found_keys)  
+            raise NotFoundKey(obrigatory_keys, not_found_keys)  
 
         if len(data["cpf"]) !=11:
             raise InvalidCpf(data["cpf"])
    
-        date_today = date.today()
-        next_date = date_today+timedelta(40)
-
-        new_data["first_shot_data"] = date_today
-        new_data["second_shot_data"] = next_date
         vaccined_people = Vacinned(**new_data)
 
         current_app.db.session.add(vaccined_people)

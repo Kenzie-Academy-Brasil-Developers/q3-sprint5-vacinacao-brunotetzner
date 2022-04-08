@@ -1,8 +1,8 @@
-"""create database
+"""databasae created
 
-Revision ID: 45c696814f67
+Revision ID: d54fc9a9cedc
 Revises: 
-Create Date: 2022-04-07 18:46:57.032303
+Create Date: 2022-04-08 14:29:19.653000
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '45c696814f67'
+revision = 'd54fc9a9cedc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('cpf', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('vaccine_name', sa.String(), nullable=False),
-    sa.Column('health_unit_name', sa.String(), nullable=False),
+    sa.Column('health_unit_name', sa.String(), nullable=True),
     sa.Column('first_shot_data', sa.DateTime(), nullable=True),
     sa.Column('second_shot_data', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('cpf'),
