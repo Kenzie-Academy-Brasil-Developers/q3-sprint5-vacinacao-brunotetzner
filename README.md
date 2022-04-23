@@ -1,14 +1,76 @@
-# Vacinação
+# Entrega Vacinação
 
+### Projeto com a proposta de documentar os dados de pessoas vacinadas.
 
-| Critérios | Pts. |
-|---|---|
-| Utilizar **SQLAlchemy**, **Dataclass**, **Blueprint**, **Migrations** e **Padrão Flask Factory** corretamente. | 1 |
-| [POST] **/vaccinations**. Ao fazer requisição nessa rota passando os dados corretos deve retornar o status code **201** (**CREATED**) e fazer a inserção dos dados normalizados no banco de dados. | 1 |
-| [POST] **/vaccination**. Ao fazer requisição nessa rota passando uma **string** com mais de 11 characters para a chave 'cpf', deve retornar o status code **400** (**BAD REQUEST**) com uma mensagem de erro que faça sentido. | 1 |
-| [POST] **/vaccination**. Ao fazer a requisição nessa rota com o valor de qualquer uma das chaves sendo diferente de **string**, deve retornar o status code **400** (**BAD REQUEST**)) com uma mensagem de erro que faça sentido. | 1.25 |
-| [POST] **/vaccination**. Ao fazer a requisição nessa rota faltando qualquer uma das chaves (**cpf**, **name**, **health_unit_name** e **vaccine_name**), deve retornar o status code **400** (**BAD REQUEST**) com uma mensagem de erro que faça sentido. | 1.25 |
-| [POST] **/vaccination**. Ao fazer a requisição nessa rota passando um **CPF** que já exista no banco de dados, deve retornar o status code **409** (**CONFLICT**) com uma mensagem de erro que faça sentido. | 1.25 |
-| [POST] **/vaccinations**. Ao fazer requisição nessa rota passando uma chave a mais, deve retornar o status code **201** (**CREATED**) e fazer a criação corretamente ignorando a chave passada. | 1.25 |
-| [GET] **/vaccinations**. Deve retornar todas as vacinas registradas no banco de dados, status code **200** (**OK**) | 1 |
-| Arquivos **requirements.txt**, **.env**, **.env.example**, **.gitignore** (**venv** e .**env**) | 1 |
+&nbsp;
+
+# Criando um registro de vacinação
+
+### **POST** baseURL/_vaccinations_
+
+Insira cpf, nome do individuo, nome da vacina e do posto de saúde no corpo da requisição, como no exemplo abaixo.
+
+```json
+{
+  "cpf": "12345678910",
+  "name": "John Doe",
+  "vaccine_name": "coranavac",
+  "health_unit_name": "posto municipal de Vila velha"
+}
+```
+
+Atente-se ao fato de que o **CPF** é uma chave com valor unico. Ou seja, não pode se repetir.
+
+## Retorno esperado:
+
+```json
+{
+  "cpf": "12345678910",
+  "name": "John Doe",
+  "vaccine_name": "coranavac",
+  "health_unit_name": "posto municipal de Vila velha",
+  "first_shot_data": "Sat, 23 Apr 2022 00:00:00 GMT",
+  "second_shot_data": "Fri, 22 Jul 2022 00:00:00 GMT"
+}
+```
+
+As chaves first_shot_date e second_shot_data. Respectivamente data da primeira dose e data da segunda dose. São geradas automaticamente pela aplicação.
+
+&nbsp;
+
+# Buscando todas as vacinas:
+
+### **GET** baseURL/_vaccinations_
+
+## Retorno esperado:
+
+Retorna todos os registros na forma de uma lista de dicionários.
+
+```json
+[
+  {
+    "cpf": "12345678910",
+    "name": "Jon Snow",
+    "vaccine_name": "coranavac",
+    "health_unit_name": "posto municipal de Vila velha",
+    "first_shot_data": "Sat, 23 Apr 2022 00:00:00 GMT",
+    "second_shot_data": "Fri, 22 Jul 2022 00:00:00 GMT"
+  },
+  {
+    "cpf": "12995678911",
+    "name": "Harry Potter",
+    "vaccine_name": "Pfizer",
+    "health_unit_name": "Ala Hospitalar de Hogwarts",
+    "first_shot_data": "Sat, 23 Apr 1998 00:00:00 GMT",
+    "second_shot_data": "Fri, 22 Jul 1998 00:00:00 GMT"
+  },
+  {
+    "cpf": "12346678910",
+    "name": "Thor Odinson",
+    "vaccine_name": "Coronavac",
+    "health_unit_name": "Setor medico da torre dos vingadores, New York",
+    "first_shot_data": "Sat, 23 Apr 2012 00:00:00 GMT",
+    "second_shot_data": "Fri, 22 Jul 2012 00:00:00 GMT"
+  }
+]
+```
