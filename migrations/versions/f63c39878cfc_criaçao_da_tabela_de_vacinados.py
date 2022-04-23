@@ -1,8 +1,8 @@
-"""databasae created
+"""criaçao da tabela de vacinados
 
-Revision ID: d54fc9a9cedc
+Revision ID: f63c39878cfc
 Revises: 
-Create Date: 2022-04-08 14:29:19.653000
+Create Date: 2022-04-23 16:45:40.850374
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd54fc9a9cedc'
+revision = 'f63c39878cfc'
 down_revision = None
 branch_labels = None
 depends_on = None
